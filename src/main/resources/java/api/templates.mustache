@@ -9,6 +9,12 @@ import {{packageName}}.{{clientType}};
 
 public class {{sdkName}} {
 
+    private static String baseUrl;
+
+    public static void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     {{#clients}}
     public static {{clientType}} {{clientName}}(String accessToken) {
         return Feign
@@ -16,7 +22,7 @@ public class {{sdkName}} {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor(accessToken))
-                .target({{clientType}}.class, "{{{baseUrl}}}");
+                .target({{clientType}}.class, {{sdkName}}.baseUrl != null ? {{sdkName}}.baseUrl : "{{{baseUrl}}}");
     }
 
     public static {{clientType}} {{clientName}}() {
@@ -25,7 +31,7 @@ public class {{sdkName}} {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor())
-                .target({{clientType}}.class, "{{{baseUrl}}}");
+                .target({{clientType}}.class, {{sdkName}}.baseUrl != null ? {{sdkName}}.baseUrl : "{{{baseUrl}}}");
 
     }
 

@@ -7,13 +7,19 @@ import io.github.erfangc.sdk.operations.PetStore;
 
 public class CompanySdk {
 
+    private static String baseUrl;
+
+    public static void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     public static PetStore petStore(String accessToken) {
         return Feign
                 .builder()
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor(accessToken))
-                .target(PetStore.class, "https://erfang.io/petstore/api/v1");
+                .target(PetStore.class, CompanySdk.baseUrl != null ? CompanySdk.baseUrl : "https://erfang.io/petstore/api/v1");
     }
 
     public static PetStore petStore() {
@@ -22,7 +28,7 @@ public class CompanySdk {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor())
-                .target(PetStore.class, "https://erfang.io/petstore/api/v1");
+                .target(PetStore.class, CompanySdk.baseUrl != null ? CompanySdk.baseUrl : "https://erfang.io/petstore/api/v1");
 
     }
 
