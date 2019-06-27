@@ -10,7 +10,7 @@ public class CompanySdk {
     private static String baseUrl;
 
     public static void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+        CompanySdk.baseUrl = baseUrl;
     }
 
     public static PetStore petStore(String accessToken) {
