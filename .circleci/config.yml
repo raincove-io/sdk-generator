@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - run: |
+          docker build . -t erfangc/sdk-generator:latest
+workflows:
+  default:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+        
