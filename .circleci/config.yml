@@ -3,31 +3,30 @@
 #
 version: 2.1
 jobs:
-  build:
+  build_and_deploy:
     machine:
       image: circleci/classic:latest
-      docker_layer_caching: true
     steps:
       - checkout
       - run: |
-          docker build . -t erfangc/sdk-generator:$CIRCLE_BRANCH
-  deploy:
-    machine:
-      image: circleci/classic:latest
-      docker_layer_caching: true
-    steps:
-      - run: |
+          if [ -n "$CIRCLE_TAG" ]
+          then
+            VERSION=$CIRCLE_TAG
+          else
+            VERSION=latest
+          fi
+
+          echo Building project for VERSION=$VERSION
+
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker push erfangc/sdk-generator:$CIRCLE_BRANCH
+          docker build . -t erfangc/sdk-generator:$VERSION
+          docker push erfangc/sdk-generator:$VERSION
 
 workflows:
   version: 2
   default:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - build_and_deploy:
           filters:
             branches:
               only: master
