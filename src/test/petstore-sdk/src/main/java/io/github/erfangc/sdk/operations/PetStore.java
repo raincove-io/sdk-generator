@@ -1,5 +1,6 @@
 package io.github.erfangc.sdk.operations;
 
+import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
 import io.github.erfangc.sdk.models.Pet;
