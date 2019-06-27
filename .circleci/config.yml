@@ -28,5 +28,7 @@ workflows:
     jobs:
       - build_and_deploy:
           filters:
-            tags: /.*/
-            branches: /.*/
+            tags:
+              only: /.*/
+            branches: 
+              only: /.*/
