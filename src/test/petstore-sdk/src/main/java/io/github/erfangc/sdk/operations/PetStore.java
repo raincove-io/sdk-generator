@@ -1,0 +1,19 @@
+package io.github.erfangc.sdk.operations;
+
+import feign.Param;
+import feign.RequestLine;
+import io.github.erfangc.sdk.models.Pet;
+import io.github.erfangc.sdk.models.Pets;
+
+public interface PetStore {
+
+    @RequestLine("GET /pets?limit={limit}")
+    Pets listPets(@Param("limit") Integer limit);
+
+    @RequestLine("POST /pets?nosave={nosave}&test={test}")
+    void createPets(Pet body, @Param("nosave") String nosave, @Param("test") Boolean test);
+
+    @RequestLine("GET /pets/{petId}")
+    Pets showPetById(@Param("petId") String petId);
+
+}

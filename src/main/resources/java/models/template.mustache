@@ -1,0 +1,24 @@
+package {{packageName}};
+
+{{#imports}}
+import {{packageName}}.{{{typeName}}};
+{{/imports}}
+{{#imports}}{{/imports}}
+public class {{javaType.typeName}} {
+
+{{#properties}}
+    private {{{type}}} {{name}};
+{{/properties}}
+
+{{#properties}}
+    public {{{type}}} get{{getterName}}() {
+        return this.{{name}};
+    }
+
+    public {{javaType.typeName}} set{{setterName}}({{{type}}} {{name}}) {
+        this.{{name}} = {{name}};
+        return this;
+    }
+
+{{/properties}}
+}

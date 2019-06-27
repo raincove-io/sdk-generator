@@ -1,0 +1,22 @@
+package {{packageName}};
+
+import feign.Param;
+import feign.RequestLine;
+{{#imports}}
+import {{packageName}}.{{typeName}};
+{{/imports}}
+
+public interface {{clientName}} {
+
+{{#operations}}
+    {{#requestBody}}
+    @RequestLine("{{{requestLine}}}")
+    {{{responseType.typeName}}} {{name}}({{{typeName}}} body{{#params}}, @Param("{{name}}") {{{type}}} {{name}}{{/params}});
+    {{/requestBody}}
+        {{^requestBody}}
+    @RequestLine("{{{requestLine}}}")
+    {{{responseType.typeName}}} {{name}}({{#params}}@Param("{{name}}") {{{type}}} {{name}}{{^last}},{{/last}}{{/params}});
+    {{/requestBody}}
+
+{{/operations}}
+}

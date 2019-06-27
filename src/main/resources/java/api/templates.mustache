@@ -1,0 +1,33 @@
+package {{packageName}};
+
+import feign.Feign;
+import feign.jackson.JacksonDecoder;
+import feign.jackson.JacksonEncoder;
+{{#clients}}
+import {{packageName}}.{{clientType}};
+{{/clients}}
+
+public class {{sdkName}} {
+
+    {{#clients}}
+    public static {{clientType}} {{clientName}}(String accessToken) {
+        return Feign
+                .builder()
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .requestInterceptor(new AccessTokenInterceptor(accessToken))
+                .target({{clientType}}.class, "{{{baseUrl}}}");
+    }
+
+    public static {{clientType}} {{clientName}}() {
+        return Feign
+                .builder()
+                .encoder(new JacksonEncoder())
+                .decoder(new JacksonDecoder())
+                .requestInterceptor(new AccessTokenInterceptor())
+                .target({{clientType}}.class, "{{{baseUrl}}}");
+
+    }
+
+    {{/clients}}
+}
