@@ -1,16 +1,31 @@
+#
+# to run the job
+#
 version: 2.1
 jobs:
   build:
-    machine: true
+    machine:
+      image: circleci/classic:latest
+      docker_layer_caching: true
     steps:
       - checkout
       - run: |
-          docker build . -t erfangc/sdk-generator:latest
+          docker build . -t erfangc/sdk-generator:${CIRCLE_BRANCH}
+  deploy:
+    machine:
+      image: circleci/classic:latest
+      docker_layer_caching: true
+    steps:
+      - run: |
+          docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+          docker push erfangc/sdk-generator:${CIRCLE_BRANCH}
+
 workflows:
   version: 2
   default:
     jobs:
-      - build:
+      - build
+      - deploy:
           filters:
             branches:
               only: master
