@@ -3,6 +3,7 @@ jobs:
   build:
     machine: true
     steps:
+      - checkout
       - run: |
           docker build . -t erfangc/sdk-generator:latest
 workflows:
