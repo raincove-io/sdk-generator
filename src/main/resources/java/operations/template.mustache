@@ -11,10 +11,12 @@ public interface {{clientName}} {
 {{#operations}}
     {{#requestBody}}
     @RequestLine("{{{requestLine}}}")
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     {{{responseType.typeName}}} {{name}}({{{typeName}}} body{{#params}}, @Param("{{name}}") {{{type}}} {{name}}{{/params}});
     {{/requestBody}}
         {{^requestBody}}
     @RequestLine("{{{requestLine}}}")
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
     {{{responseType.typeName}}} {{name}}({{#params}}@Param("{{name}}") {{{type}}} {{name}}{{^last}},{{/last}}{{/params}});
     {{/requestBody}}
 
