@@ -1,8 +1,7 @@
 version: 2.1
 jobs:
   build:
-    docker:
-      - image: alpine:3.7
+    machine: true
     steps:
       - run: |
           docker build . -t erfangc/sdk-generator:latest
