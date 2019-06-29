@@ -9,6 +9,8 @@ import io.github.erfangc.sdk.generator.java.JavaOptions;
 import io.github.erfangc.sdk.generator.java.JavaType;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 
 public class ModelsProcessor {
 
+    private static Logger logger = LoggerFactory.getLogger(ModelsProcessor.class);
     private JavaOptions options;
 
     public ModelsProcessor(JavaOptions options) {
@@ -131,6 +134,10 @@ public class ModelsProcessor {
                     // process an ordinary reference or a primitive
                     //
                     final JavaType javaType = toJavaType(propertySchema, packageName);
+                    if (javaType == null) {
+                        logger.error("Cannot determine the type of propertySchema {}", propertySchema.toString());
+                        throw new IllegalArgumentException("Cannot determine the type of propertySchema " + propertySchema.toString());
+                    }
                     final String pascalCasePropertyName = toPascalCase(propertyName);
                     final Property property = new Property()
                             .setType(javaType.getTypeName())
