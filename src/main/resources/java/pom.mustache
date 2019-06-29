@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.company</groupId>
-    <artifactId>sdk</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <groupId>{{groupId}}</groupId>
+    <artifactId>{{artifactId}}</artifactId>
+    <version>{{version}}</version>
 
-    <name>sdk</name>
-    <description>SDK library sdk</description>
-    <url>https://api.company.com</url>
+    <name>{{artifactId}}</name>
+    <description>SDK library {{artifactId}}</description>
+    <url>{{{url}}}</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,22 +18,31 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
+    {{#license}}
     <licenses>
         <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>{{{name}}}</name>
+            <url>{{{url}}}</url>
         </license>
     </licenses>
+    {{/license}}
 
     <developers>
         <developer>
-            <name>Erfang Chen</name>
-            <email>erfangc@gmail.com</email>
-            <organization>com.company</organization>
-            <organizationUrl>https://api.company.com</organizationUrl>
+            <name>{{{name}}}</name>
+            <email>{{{email}}}</email>
+            <organization>{{{groupId}}}</organization>
+            <organizationUrl>{{{url}}}</organizationUrl>
         </developer>
     </developers>
 
+    {{#scm}}
+    <scm>
+        <connection>{{{connection}}}</connection>
+        <developerConnection>{{{developerConnection}}}</developerConnection>
+        <url>{{{url}}}</url>
+    </scm>
+    {{/scm}}
 
     <dependencies>
         <dependency>
@@ -100,12 +109,12 @@
 
     <distributionManagement>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>{{repositoryId}}</id>
+            <url>{{{repository}}}</url>
         </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>{{snapshotRepositoryId}}</id>
+            <url>{{{snapshotRepository}}}</url>
         </snapshotRepository>
     </distributionManagement>
 

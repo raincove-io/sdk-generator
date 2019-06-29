@@ -40,17 +40,58 @@ public class JavaOptions {
     @Parameter(names = "--serviceEndpoint")
     private String serviceEndpoint;
     @Parameter(names = "--repository")
-    private String repository = "https://repo1.maven.org/maven2";
+    private String repository = "https://oss.sonatype.org/service/local/staging/deploy/maven2";
     @Parameter(names = "--repositoryId")
-    private String repositoryId = "central";
+    private String repositoryId = "ossrh";
     @Parameter(names = "--snapshotRepository")
-    private String snapshotRepository = "https://repo1.maven.org/maven2";
+    private String snapshotRepository = "https://oss.sonatype.org/content/repositories/snapshots";
     @Parameter(names = "--snapshotRepositoryId")
-    private String snapshotRepositoryId = "snapshots";
+    private String snapshotRepositoryId = "ossrh";
     @Parameter(names = "--pkceSuccessfulFile")
     private String pkceSuccessfulFile;
     @Parameter(names = "--pkceFailedFile")
     private String pkceFailedFile;
+    @Parameter(names = "--scmConnection")
+    private String scmConnection;
+    @Parameter(names = "--scmDeveloperConnection")
+    private String scmDeveloperConnection;
+    @Parameter(names = "--scmUrl")
+    private String scmUrl;
+    @Parameter(names = "--name")
+    private String name = System.getProperty("user.name");
+    @Parameter(names = "--email")
+    private String email = System.getProperty("user.name") + "@gmail.com";
+    @Parameter(names = "--url")
+    private String url = "https://api.company.com";
+    @Parameter(names = "--license")
+    private String license = "apache2";
+
+    public String getScmConnection() {
+        return scmConnection;
+    }
+
+    public JavaOptions setScmConnection(String scmConnection) {
+        this.scmConnection = scmConnection;
+        return this;
+    }
+
+    public String getScmDeveloperConnection() {
+        return scmDeveloperConnection;
+    }
+
+    public JavaOptions setScmDeveloperConnection(String scmDeveloperConnection) {
+        this.scmDeveloperConnection = scmDeveloperConnection;
+        return this;
+    }
+
+    public String getScmUrl() {
+        return scmUrl;
+    }
+
+    public JavaOptions setScmUrl(String scmUrl) {
+        this.scmUrl = scmUrl;
+        return this;
+    }
 
     public String getPkceSuccessfulFile() {
         return pkceSuccessfulFile;
@@ -247,6 +288,42 @@ public class JavaOptions {
 
     public JavaOptions setServiceEndpoint(String serviceEndpoint) {
         this.serviceEndpoint = serviceEndpoint;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public JavaOptions setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public JavaOptions setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public JavaOptions setUrl(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public JavaOptions setLicense(String license) {
+        this.license = license;
         return this;
     }
 }

@@ -39,6 +39,10 @@ public class SdkProcessor {
         final File inputDirectory = new File(options.getInputDirectory());
         final ArrayList<Client> clients = new ArrayList<>();
         final Context context = new Context()
+                .setClients(clients)
+                .setUrl(options.getUrl())
+                .setName(options.getName())
+                .setEmail(options.getEmail())
                 .setArtifactId(options.getArtifactId())
                 .setGroupId(options.getGroupId())
                 .setVersion(options.getVersion())
@@ -47,7 +51,6 @@ public class SdkProcessor {
                 .setSnapshotRepository(options.getSnapshotRepository())
                 .setSnapshotRepositoryId(options.getSnapshotRepositoryId())
                 .setAuthorizationServer(options.getAuthorizationServer())
-                .setClients(clients)
                 .setSdkClientId(options.getSdkClientId())
                 .setPackageName(options.getApiPackageName())
                 .setCredentialsFilePath(options.getCredentialsFilePath())
@@ -96,7 +99,8 @@ public class SdkProcessor {
 
         outputFiles.add(new OutputFile().setPath(outputDirectory + "/.gitlab-ci.yaml").setContent(IOUtils.readResourceFully("java/.gitlab-ci.yaml")));
         outputFiles.add(new OutputFile().setPath(outputDirectory + "/README.md").setContent(Mustache.compiler().compile(IOUtils.readResourceFully("java/README.md")).execute(context)));
-        outputFiles.add(new OutputFile().setPath(outputDirectory + "/pom.xml").setContent(Mustache.compiler().compile(IOUtils.readResourceFully("java/pom.xml")).execute(context)));
+        final OutputFile pom = new PomProcessor().processPom(options, context);
+        outputFiles.add(pom);
         outputFiles.add(new OutputFile().setPath(outputDirectory + "/.gitignore").setContent(".idea\n*.iml\ntarget"));
 
         return ret;

@@ -19,6 +19,56 @@ public class Context {
     private String sdkName;
     private String sdkAudience;
     private List<Client> clients;
+    private Scm scm;
+    private License license;
+    private String name;
+    private String email;
+    private String url;
+
+    public Scm getScm() {
+        return scm;
+    }
+
+    public Context setScm(Scm scm) {
+        this.scm = scm;
+        return this;
+    }
+
+    public License getLicense() {
+        return license;
+    }
+
+    public Context setLicense(License license) {
+        this.license = license;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Context setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Context setEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Context setUrl(String url) {
+        this.url = url;
+        return this;
+    }
 
     public String getRepository() {
         return repository;

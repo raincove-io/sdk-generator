@@ -16,6 +16,8 @@ public class SdkProcessorTest {
     @Test
     public void processApi() {
         JavaOptions options = new JavaOptions()
+                .setEmail("erfangc@gmail.com")
+                .setName("Erfang Chen")
                 .setInputDirectory("src/test/resources")
                 .setOperationsPackageName("io.github.erfangc.sdk.operations")
                 .setModelsPackageName("io.github.erfangc.sdk.models")
