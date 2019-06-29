@@ -40,6 +40,7 @@ public class SdkProcessor {
         final ArrayList<Client> clients = new ArrayList<>();
         final Context context = new Context()
                 .setClients(clients)
+                .setEndpoint(options.getServiceEndpoint())
                 .setUrl(options.getUrl())
                 .setName(options.getName())
                 .setEmail(options.getEmail())

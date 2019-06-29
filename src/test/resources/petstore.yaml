@@ -4,7 +4,7 @@ info:
   title: Pet Store
 
 servers:
-  - url: https://erfang.io/petstore/api/v1
+  - url: /petstore/api/v1
 
 paths:
   /pets:

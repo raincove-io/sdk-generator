@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Context {
     private String version;
+    private String endpoint;
     private String groupId;
     private String artifactId;
     private String repository;
@@ -193,6 +194,15 @@ public class Context {
 
     public Context setVersion(String version) {
         this.version = version;
+        return this;
+    }
+
+    public String getEndpoint() {
+        return endpoint;
+    }
+
+    public Context setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
         return this;
     }
 }

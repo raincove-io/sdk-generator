@@ -7,10 +7,10 @@ import io.github.erfangc.sdk.operations.PetStore;
 
 public class CompanySdk {
 
-    private static String baseUrl;
+    private static String endpoint = "http://localhost:8080";
 
-    public static void setBaseUrl(String baseUrl) {
-        CompanySdk.baseUrl = baseUrl;
+    public static void setEndpoint(String endpoint) {
+        CompanySdk.endpoint = endpoint;
     }
 
     public static PetStore petStore(String accessToken) {
@@ -19,7 +19,7 @@ public class CompanySdk {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor(accessToken))
-                .target(PetStore.class, CompanySdk.baseUrl != null ? CompanySdk.baseUrl : "https://erfang.io/petstore/api/v1");
+                .target(PetStore.class, CompanySdk.endpoint + "/petstore/api/v1");
     }
 
     public static PetStore petStore() {
@@ -28,8 +28,7 @@ public class CompanySdk {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor())
-                .target(PetStore.class, CompanySdk.baseUrl != null ? CompanySdk.baseUrl : "https://erfang.io/petstore/api/v1");
-
+                .target(PetStore.class, CompanySdk.endpoint + "/petstore/api/v1");
     }
 
 }

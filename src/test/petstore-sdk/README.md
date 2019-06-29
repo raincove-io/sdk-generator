@@ -1,4 +1,4 @@
-# PetstoreSdk
+# CompanySdk
 
 This is the SDK (Software Development Kit) for Petstore. The SDK handles authentication and makes API calls on your behalf to the hosted service
 

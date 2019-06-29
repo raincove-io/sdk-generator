@@ -9,10 +9,10 @@ import {{packageName}}.{{clientType}};
 
 public class {{sdkName}} {
 
-    private static String baseUrl;
+    private static String endpoint = "{{{endpoint}}}";
 
-    public static void setBaseUrl(String baseUrl) {
-        {{sdkName}}.baseUrl = baseUrl;
+    public static void setEndpoint(String endpoint) {
+        {{sdkName}}.endpoint = endpoint;
     }
 
     {{#clients}}
@@ -22,7 +22,7 @@ public class {{sdkName}} {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor(accessToken))
-                .target({{clientType}}.class, {{sdkName}}.baseUrl != null ? {{sdkName}}.baseUrl : "{{{baseUrl}}}");
+                .target({{clientType}}.class, {{sdkName}}.endpoint + "{{{baseUrl}}}");
     }
 
     public static {{clientType}} {{clientName}}() {
@@ -31,8 +31,7 @@ public class {{sdkName}} {
                 .encoder(new JacksonEncoder())
                 .decoder(new JacksonDecoder())
                 .requestInterceptor(new AccessTokenInterceptor())
-                .target({{clientType}}.class, {{sdkName}}.baseUrl != null ? {{sdkName}}.baseUrl : "{{{baseUrl}}}");
-
+                .target({{clientType}}.class, {{sdkName}}.endpoint + "{{{baseUrl}}}");
     }
 
     {{/clients}}

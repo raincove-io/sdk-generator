@@ -38,7 +38,7 @@ public class JavaOptions {
     @Parameter(names = "--credentialsFilePath")
     private String credentialsFilePath = ".sdk/credentials.json";
     @Parameter(names = "--serviceEndpoint")
-    private String serviceEndpoint;
+    private String serviceEndpoint = "http://localhost:8080";
     @Parameter(names = "--repository")
     private String repository = "https://oss.sonatype.org/service/local/staging/deploy/maven2";
     @Parameter(names = "--repositoryId")
@@ -326,4 +326,5 @@ public class JavaOptions {
         this.license = license;
         return this;
     }
+
 }

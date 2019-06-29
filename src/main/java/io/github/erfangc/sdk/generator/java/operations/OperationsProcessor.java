@@ -76,11 +76,12 @@ public class OperationsProcessor {
     }
 
     private String getBaseUrl(OpenAPI openapi) {
-        String baseUrl = openapi.getServers().stream().findFirst().map(Server::getUrl).orElse("http://localhost:8080");
-        if (options.getServiceEndpoint() != null) {
-            baseUrl = options.getServiceEndpoint() + baseUrl;
-        }
-        return baseUrl;
+        return openapi
+                .getServers()
+                .stream()
+                .findFirst()
+                .map(Server::getUrl)
+                .orElse("/");
     }
 
     private List<InternalOperation> processPathItem(Map.Entry<String, PathItem> pathItemEntry) {
