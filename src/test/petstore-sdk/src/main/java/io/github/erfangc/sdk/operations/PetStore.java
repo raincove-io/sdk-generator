@@ -9,8 +9,8 @@ import io.github.erfangc.sdk.models.Pets;
 public interface PetStore {
 
     @RequestLine("GET /pets?limit={limit}")
-    @Headers({"Content-Type: application/json", "Accept: application/json"})
-    Pets listPets(@Param("limit") Integer limit);
+    @Headers({"Content-Type: application/json", "Accept: application/json", "X-Rate-Limit: {xRateLimit}"})
+    Pets listPets(@Param("xRateLimit") String xRateLimit, @Param("limit") Integer limit);
 
     @RequestLine("POST /pets?nosave={nosave}&test={test}")
     @Headers({"Content-Type: application/json", "Accept: application/json"})

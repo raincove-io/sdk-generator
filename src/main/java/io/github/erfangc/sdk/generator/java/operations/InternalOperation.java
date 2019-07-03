@@ -8,6 +8,7 @@ import java.util.List;
 public class InternalOperation {
     private String name;
     private List<Param> params;
+    private List<Header> headers;
     private JavaType requestBody;
     private String requestLine;
     private JavaType responseType;
@@ -64,6 +65,15 @@ public class InternalOperation {
 
     public InternalOperation setRequiredImports(List<Import> requiredImports) {
         this.requiredImports = requiredImports;
+        return this;
+    }
+
+    public List<Header> getHeaders() {
+        return headers;
+    }
+
+    public InternalOperation setHeaders(List<Header> headers) {
+        this.headers = headers;
         return this;
     }
 }

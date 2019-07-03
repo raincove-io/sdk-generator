@@ -110,23 +110,35 @@ public class OperationsProcessor {
                                                 PathItem.HttpMethod method) {
         List<Param> operationParams = getOperationParams(operation);
         String path = pathItemEntry.getKey();
-        JavaType reponseType = getReponseType(operation);
+        JavaType responseType = getResponseType(operation);
         JavaType requestBody = getRequestBody(operation);
         List<Import> requiredImports = new ArrayList<>();
         if (requestBody != null) {
             requiredImports.addAll(requestBody.getRequiredImports());
         }
-        requiredImports.addAll(reponseType.getRequiredImports());
+        requiredImports.addAll(responseType.getRequiredImports());
+        List<Header> headers = operationParams
+                .stream()
+                .filter(Param::isHeaderVariable)
+                .map(param -> {
+                    Header header = new Header();
+                    header
+                            .setName("{" + param.getName() + "}")
+                            .setRawName(param.getOrigName());
+                    return header;
+                })
+                .collect(toList());
         return new InternalOperation()
                 .setName(getOperationName(operation))
                 .setParams(operationParams)
                 .setRequestBody(requestBody)
-                .setResponseType(reponseType)
+                .setResponseType(responseType)
                 .setRequestLine(getRequestLine(path, method, operation))
+                .setHeaders(headers)
                 .setRequiredImports(requiredImports);
     }
 
-    private JavaType getReponseType(io.swagger.v3.oas.models.Operation operation) {
+    private JavaType getResponseType(io.swagger.v3.oas.models.Operation operation) {
         return operation
                 .getResponses()
                 .entrySet()
@@ -157,7 +169,7 @@ public class OperationsProcessor {
         final String url = method.toString() + " " + path;
         final List<Param> queryParams = params
                 .stream()
-                .filter(param -> !param.isPathVariable())
+                .filter(param -> !param.isPathVariable() && !param.isHeaderVariable())
                 .collect(toList());
         if (!queryParams.isEmpty()) {
             return url + "?" + queryParams
@@ -195,13 +207,24 @@ public class OperationsProcessor {
             Parameter parameter = parameters.get(i);
             JavaType javaType = toJavaType(parameter.getSchema(), options.getModelsPackageName());
             Param param = new Param();
-            param.setName(parameter.getName());
+            param.setOrigName(parameter.getName());
+            param.setName(getName(parameter));
             param.setType(javaType.getTypeName());
             param.setLast(i == parameters.size() - 1);
             param.setPathVariable(parameter.getIn().equals("path"));
+            param.setHeaderVariable(parameter.getIn().equals("header"));
             ret.add(param);
         }
         return ret;
+    }
+
+    private String getName(Parameter parameter) {
+        if (parameter.getIn().equals("header")) {
+            // headers can take the form X-Word-X
+            return toCamelCase(parameter.getName());
+        } else {
+            return parameter.getName();
+        }
     }
 
     private String getOperationName(io.swagger.v3.oas.models.Operation operation) {

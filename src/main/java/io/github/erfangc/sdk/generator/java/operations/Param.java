@@ -2,8 +2,10 @@ package io.github.erfangc.sdk.generator.java.operations;
 
 public class Param {
     private String name;
+    private String origName;
     private String type;
     private boolean isPathVariable;
+    private boolean isHeaderVariable;
     private boolean last;
 
     public String getName() {
@@ -39,6 +41,24 @@ public class Param {
 
     public Param setPathVariable(boolean pathVariable) {
         isPathVariable = pathVariable;
+        return this;
+    }
+
+    public boolean isHeaderVariable() {
+        return isHeaderVariable;
+    }
+
+    public Param setHeaderVariable(boolean headerVariable) {
+        isHeaderVariable = headerVariable;
+        return this;
+    }
+
+    public String getOrigName() {
+        return origName;
+    }
+
+    public Param setOrigName(String origName) {
+        this.origName = origName;
         return this;
     }
 }
