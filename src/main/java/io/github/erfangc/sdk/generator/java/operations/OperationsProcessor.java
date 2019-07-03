@@ -18,6 +18,8 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.servers.Server;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -25,6 +27,7 @@ import static io.github.erfangc.sdk.generator.java.JavaCaseUtil.toCamelCase;
 import static io.github.erfangc.sdk.generator.java.JavaCaseUtil.toPascalCase;
 import static io.github.erfangc.sdk.generator.java.JavaTypeResolver.toJavaType;
 import static java.lang.Integer.parseInt;
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -34,6 +37,7 @@ import static java.util.stream.Collectors.toList;
 public class OperationsProcessor {
 
     private final JavaOptions options;
+    private static final Logger logger = LoggerFactory.getLogger(OperationsProcessor.class);
 
     public OperationsProcessor(JavaOptions options) {
         this.options = options;
@@ -204,18 +208,29 @@ public class OperationsProcessor {
         }
         List<Param> ret = new ArrayList<>();
         for (int i = 0; i < parameters.size(); i++) {
-            Parameter parameter = parameters.get(i);
-            JavaType javaType = toJavaType(parameter.getSchema(), options.getModelsPackageName());
-            Param param = new Param();
-            param.setOrigName(parameter.getName());
-            param.setName(getName(parameter));
-            param.setType(javaType.getTypeName());
-            param.setLast(i == parameters.size() - 1);
-            param.setPathVariable(parameter.getIn().equals("path"));
-            param.setHeaderVariable(parameter.getIn().equals("header"));
-            ret.add(param);
+            final Parameter parameter = parameters.get(i);
+            if (isValidParameter(parameter)) {
+                JavaType javaType = toJavaType(parameter.getSchema(), options.getModelsPackageName());
+                Param param = new Param();
+                param.setOrigName(parameter.getName());
+                param.setName(getName(parameter));
+                param.setType(javaType.getTypeName());
+                param.setLast(i == parameters.size() - 1);
+                param.setPathVariable(parameter.getIn().equals("path"));
+                param.setHeaderVariable(parameter.getIn().equals("header"));
+                ret.add(param);
+            }
         }
         return ret;
+    }
+
+    private boolean isValidParameter(Parameter parameter) {
+        final List<String> blacklist = asList("Authorization");
+        if (blacklist.contains(parameter.getName())) {
+            logger.warn("Skipping generation of forbidden parameter {}", parameter.getName());
+            return false;
+        }
+        return true;
     }
 
     private String getName(Parameter parameter) {

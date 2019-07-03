@@ -14,6 +14,11 @@ paths:
       tags:
         - pets
       parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          required: true
         - name: X-Rate-Limit
           in: header
           schema:
