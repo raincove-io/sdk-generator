@@ -41,11 +41,7 @@ public class AccessTokenInterceptor implements RequestInterceptor {
         if (credentials == null || isExpired(credentials)) {
             credentials = fromProviderChain();
         }
-        String token = credentials.getIdToken();
-        if (token == null) {
-            token = credentials.getAccessToken();
-        }
-        return token;
+        return credentials.getAccessToken();
     }
 
     /**
